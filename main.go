@@ -9,35 +9,37 @@ import (
 
 func main() {
 	pulumi.Run(func(ctx *pulumi.Context) error {
+		cfg := config.New(ctx, "")
 
-		appLabels := pulumi.StringMap{
-			"app": pulumi.String("nginx"),
-		}
-		deployment, err := appsv1.NewDeployment(ctx, "app-dep", &appsv1.DeploymentArgs{
-			Spec: appsv1.DeploymentSpecArgs{
-				Selector: &metav1.LabelSelectorArgs{
-					MatchLabels: appLabels,
-				},
-				Replicas: pulumi.Int(1),
-				Template: &corev1.PodTemplateSpecArgs{
-					Metadata: &metav1.ObjectMetaArgs{
-						Labels: appLabels,
-					},
-					Spec: &corev1.PodSpecArgs{
-						Containers: corev1.ContainerArray{
-							corev1.ContainerArgs{
-								Name:  pulumi.String("nginx"),
-								Image: pulumi.String("nginx"),
-							}},
-					},
-				},
-			},
-		})
-		if err != nil {
-			return err
-		}
-
-		ctx.Export("name", deployment.Metadata.Name())
+		//appLabels := pulumi.StringMap{
+		//	"app": pulumi.String("nginx"),
+		//}
+		//deployment, err := appsv1.NewDeployment(ctx, "app-dep", &appsv1.DeploymentArgs{
+		//	Spec: appsv1.DeploymentSpecArgs{
+		//		Selector: &metav1.LabelSelectorArgs{
+		//			MatchLabels: appLabels,
+		//		},
+		//		Replicas: pulumi.Int(1),
+		//		Template: &corev1.PodTemplateSpecArgs{
+		//			Metadata: &metav1.ObjectMetaArgs{
+		//				Labels: appLabels,
+		//			},
+		//			Spec: &corev1.PodSpecArgs{
+		//				Containers: corev1.ContainerArray{
+		//					corev1.ContainerArgs{
+		//						Name:  pulumi.String("nginx"),
+		//						Image: pulumi.String("nginx"),
+		//					}},
+		//			},
+		//		},
+		//	},
+		//})
+		//if err != nil {
+		//	return err
+		//}
+		//
+		// ctx.Export("name", deployment.Metadata.Name())
+		ctx.Export("author", cfg.Require("author"))
 
 		return nil
 	})
