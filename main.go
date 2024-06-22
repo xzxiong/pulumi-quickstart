@@ -44,7 +44,7 @@ func main() {
 		// ctx.Export("name", deployment.Metadata.Name())
 		ctx.Export("author", pulumi.String(cfg.Require("author")))
 
-		funcName := cfg.Get("get-function-name")
+		funcName := cfg.Get("get-output-function")
 		if funcName == "" || funcName == "stackRefGetOutput" {
 			if err := stackRefGetOutput(ctx, cfg); err != nil {
 				return err

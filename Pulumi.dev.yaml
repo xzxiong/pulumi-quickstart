@@ -1,2 +1,3 @@
 config:
   quickstart:author: xzxiong
+  quickstart:get-output-function: stackRefGetOutput
